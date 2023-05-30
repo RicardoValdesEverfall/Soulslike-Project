@@ -9,10 +9,16 @@ namespace RVT
     {
         public static PlayerInputManager Instance;
 
+        [Header("MOVEMENT INPUT")]
         [SerializeField] public Vector2 MovementInput;
         [SerializeField] public float HorizontalInput;
         [SerializeField] public float VerticalInput;
         [SerializeField] public float MoveAmount;
+
+        [Header("CAMERA INPUT")]
+        [SerializeField] public Vector2 CameraInput;
+        [SerializeField] public float CamHorizontalInput;
+        [SerializeField] public float CamVerticalInput;
 
         private PlayerControls PlayerControlsComponent;
 
@@ -32,6 +38,7 @@ namespace RVT
         private void Update()
         {
             HandleMovementInput();
+            HandleCameraMovementInput();
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
@@ -45,7 +52,8 @@ namespace RVT
             if (PlayerControlsComponent == null)
             { 
                 PlayerControlsComponent = new PlayerControls();
-                PlayerControlsComponent.PlayerMovement.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
+                PlayerControlsComponent.PlayerLocomotion.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
+                PlayerControlsComponent.PlayerCamera.Movement.performed += i => CameraInput = i.ReadValue<Vector2>();
             }
 
             PlayerControlsComponent.Enable();
@@ -75,5 +83,12 @@ namespace RVT
             if (MoveAmount <= 0.5 && MoveAmount > 0) { MoveAmount = 0.5f; }
             else if (MoveAmount > 0.5 && MoveAmount <= 1) { MoveAmount = 1f; }
         }
+
+        private void HandleCameraMovementInput()
+        {
+            CamHorizontalInput = CameraInput.x;
+            CamVerticalInput = CameraInput.y;
+        }
+
     }
 }

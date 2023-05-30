@@ -22,6 +22,24 @@ namespace RVT
             if (!IsOwner) { return; }
             _playerLocomotionManager.HandleAllMovement();
         }
+
+        protected override void LateUpdate()
+        {
+            if (!IsOwner) { return; }
+            base.LateUpdate();
+
+            PlayerCamera.Instance.HandleAllCameraActions();
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkDespawn();
+
+            if (IsOwner)
+            {
+                PlayerCamera.Instance.Player = this;
+            }
+        }
     }
 }
 

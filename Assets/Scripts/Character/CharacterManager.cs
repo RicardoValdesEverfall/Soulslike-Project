@@ -41,5 +41,10 @@ namespace RVT
                     CharacterNetworkManagerComponent.NetworkRotationSmoothTime);
             }
         }
+
+        protected virtual void LateUpdate()
+        {
+
+        }
     }
 }
