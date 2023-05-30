@@ -1490,6 +1490,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7747388933586235712}
   - component: {fileID: 5450138602223739929}
+  - component: {fileID: 6185739564403791600}
+  - component: {fileID: 5595232185233274207}
+  - component: {fileID: 4216928938577507960}
   - component: {fileID: 6937430604678788795}
   - component: {fileID: 1456689743615687955}
   m_Layer: 0
@@ -1532,6 +1535,60 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &6185739564403791600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975954449462422522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb98d0b8175f3f45b6921302539cfcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  NetworkPositionVelocity: {x: 0, y: 0, z: 0}
+  NetworkPositionSmoothTime: 0.1
+--- !u!95 &5595232185233274207
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975954449462422522}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!143 &4216928938577507960
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975954449462422522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.8
+  m_Radius: 0.22
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!114 &6937430604678788795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,6 +1601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42957d4135e32049bb285ba274de36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterControllerComponent: {fileID: 4216928938577507960}
 --- !u!114 &1456689743615687955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1614,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e305f74c1ab91040afb24b7dddaccba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WalkingSpeed: 2
+  RunningSpeed: 5
+  _verticalMovement: 0
+  _horizontalMovement: 0
+  _moveAmount: 0
 --- !u!1 &7128114418301721704
 GameObject:
   m_ObjectHideFlags: 0

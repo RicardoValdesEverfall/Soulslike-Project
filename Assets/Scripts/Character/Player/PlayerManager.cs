@@ -19,6 +19,7 @@ namespace RVT
         {
             base.Update();
 
+            if (!IsOwner) { return; }
             _playerLocomotionManager.HandleAllMovement();
         }
     }
