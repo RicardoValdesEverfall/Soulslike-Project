@@ -7,9 +7,10 @@ namespace RVT
 {
     public class CharacterManager : NetworkBehaviour
     {
-        public CharacterController CharacterControllerComponent;
+        [HideInInspector] public CharacterController CharacterControllerComponent;
+        [HideInInspector] public Animator animator;
 
-        CharacterNetworkManager CharacterNetworkManagerComponent;
+        [HideInInspector] public CharacterNetworkManager CharacterNetworkManagerComponent;
 
         protected virtual void Awake()
         {
@@ -17,6 +18,8 @@ namespace RVT
 
             CharacterControllerComponent = GetComponent<CharacterController>();
             CharacterNetworkManagerComponent = GetComponent<CharacterNetworkManager>();
+
+            animator = GetComponent<Animator>();
         }
 
         protected virtual void Update()

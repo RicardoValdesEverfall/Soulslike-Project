@@ -26,6 +26,27 @@ namespace RVT
             _playerManager = GetComponent<PlayerManager>();
         }
 
+        protected override void Update()
+        {
+            base.Update();
+
+            if (_playerManager.IsOwner)
+            {
+                _playerManager.CharacterNetworkManagerComponent.animatorHorizontalParameter.Value = _horizontalMovement;
+                _playerManager.CharacterNetworkManagerComponent.animatorVerticalParameter.Value = _verticalMovement;
+                _playerManager.CharacterNetworkManagerComponent.animatorMoveParameter.Value = _moveAmount;
+            }
+
+            else
+            {
+                _horizontalMovement = _playerManager.CharacterNetworkManagerComponent.animatorHorizontalParameter.Value;
+                _verticalMovement = _playerManager.CharacterNetworkManagerComponent.animatorVerticalParameter.Value;
+                _moveAmount = _playerManager.CharacterNetworkManagerComponent.animatorMoveParameter.Value;
+
+                _playerManager._playerAnimator.UpdateAnimatorMovementParameters(0, _moveAmount);
+            }
+        }
+
         public void HandleAllMovement()
         {
             HandleGroundedMovement();
@@ -34,7 +55,7 @@ namespace RVT
 
         private void HandleGroundedMovement()
         {
-            GetVerticalAndHorizontalInputs();
+            GetMovementValues();
 
             MoveDirection = PlayerCamera.Instance.transform.forward * _verticalMovement;
             MoveDirection = MoveDirection + PlayerCamera.Instance.transform.right * _horizontalMovement;
@@ -66,11 +87,11 @@ namespace RVT
             transform.rotation = targetRotation;
         }
 
-        private void GetVerticalAndHorizontalInputs()
+        private void GetMovementValues()
         {
             _verticalMovement = PlayerInputManager.Instance.VerticalInput;
             _horizontalMovement = PlayerInputManager.Instance.HorizontalInput;
-
+            _moveAmount = PlayerInputManager.Instance.MoveAmount;
             //CLAMP MOVEMENTS
         }
     }

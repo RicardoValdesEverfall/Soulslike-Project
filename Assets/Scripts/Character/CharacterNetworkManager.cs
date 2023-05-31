@@ -13,5 +13,10 @@ namespace RVT
         public Vector3 NetworkPositionVelocity;
         public float NetworkPositionSmoothTime = 0.1f;
         public float NetworkRotationSmoothTime = 0.1f;
+
+        [Header("Animator")]
+        public NetworkVariable<float> animatorHorizontalParameter = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> animatorVerticalParameter = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> animatorMoveParameter = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     }
 }

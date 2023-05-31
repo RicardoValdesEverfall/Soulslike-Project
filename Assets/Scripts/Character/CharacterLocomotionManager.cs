@@ -10,6 +10,11 @@ namespace RVT
         {
 
         }
+
+        protected virtual void Update()
+        {
+
+        }
             
     }
 }

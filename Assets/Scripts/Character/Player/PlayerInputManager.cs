@@ -8,6 +8,7 @@ namespace RVT
     public class PlayerInputManager : MonoBehaviour
     {
         public static PlayerInputManager Instance;
+        public PlayerManager Player;
 
         [Header("MOVEMENT INPUT")]
         [SerializeField] public Vector2 MovementInput;
@@ -82,6 +83,10 @@ namespace RVT
 
             if (MoveAmount <= 0.5 && MoveAmount > 0) { MoveAmount = 0.5f; }
             else if (MoveAmount > 0.5 && MoveAmount <= 1) { MoveAmount = 1f; }
+
+            if (Player == null) { return; }
+
+            Player._playerAnimator.UpdateAnimatorMovementParameters(0, MoveAmount);
         }
 
         private void HandleCameraMovementInput()
