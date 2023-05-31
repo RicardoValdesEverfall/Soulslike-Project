@@ -10,19 +10,23 @@ namespace RVT
         public static PlayerInputManager Instance;
         public PlayerManager Player;
 
+        [Header("CAMERA INPUT")]
+        [SerializeField] public Vector2 CameraInput;
+        [SerializeField] public float CamHorizontalInput;
+        [SerializeField] public float CamVerticalInput;
+
         [Header("MOVEMENT INPUT")]
         [SerializeField] public Vector2 MovementInput;
         [SerializeField] public float HorizontalInput;
         [SerializeField] public float VerticalInput;
         [SerializeField] public float MoveAmount;
 
-        [Header("CAMERA INPUT")]
-        [SerializeField] public Vector2 CameraInput;
-        [SerializeField] public float CamHorizontalInput;
-        [SerializeField] public float CamVerticalInput;
+        [Header("ACTION INPUT")]
+        [SerializeField] private bool DodgeInput;
 
         private PlayerControls PlayerControlsComponent;
 
+        #region Script Voids
         private void Awake()
         {
             if (Instance == null) { Instance = this; }
@@ -38,9 +42,11 @@ namespace RVT
 
         private void Update()
         {
-            HandleMovementInput();
             HandleCameraMovementInput();
+            HandleMovementInput();
+            HandleDodgeInput();
         }
+        #endregion
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
@@ -48,6 +54,7 @@ namespace RVT
             else { Instance.enabled = false; }
         }
 
+        #region Script Utilities
         private void OnEnable()
         {
             if (PlayerControlsComponent == null)
@@ -55,6 +62,7 @@ namespace RVT
                 PlayerControlsComponent = new PlayerControls();
                 PlayerControlsComponent.PlayerLocomotion.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
                 PlayerControlsComponent.PlayerCamera.Movement.performed += i => CameraInput = i.ReadValue<Vector2>();
+                PlayerControlsComponent.PlayerActions.Dodge.performed += i => DodgeInput = true;
             }
 
             PlayerControlsComponent.Enable();
@@ -73,7 +81,9 @@ namespace RVT
                 else { PlayerControlsComponent.Disable(); }
             }
         }
+        #endregion
 
+        #region Player Handles
         private void HandleMovementInput()
         {
             VerticalInput = MovementInput.y;
@@ -89,11 +99,21 @@ namespace RVT
             Player._playerAnimator.UpdateAnimatorMovementParameters(0, MoveAmount);
         }
 
+        private void HandleDodgeInput()
+        {
+            if (DodgeInput)
+            {
+                DodgeInput = false;
+
+                Player._playerLocomotionManager.AttemptToPerformDodge();
+            }
+        }
+
         private void HandleCameraMovementInput()
         {
             CamHorizontalInput = CameraInput.x;
             CamVerticalInput = CameraInput.y;
         }
-
+        #endregion
     }
 }

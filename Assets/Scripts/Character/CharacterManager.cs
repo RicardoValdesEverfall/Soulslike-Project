@@ -12,6 +12,12 @@ namespace RVT
 
         [HideInInspector] public CharacterNetworkManager CharacterNetworkManagerComponent;
 
+        [Header("Flags")]
+        public bool PerformingAction;
+        public bool ApplyRootMotion;
+        public bool CanRotate = true;
+        public bool CanMove = true;
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);

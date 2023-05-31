@@ -12,9 +12,12 @@ namespace RVT
         [SerializeField] private float RunningSpeed = 5;
         [SerializeField] private float RotationSpeed = 15;
 
-        public float _verticalMovement;
-        public float _horizontalMovement;
-        public float _moveAmount;
+        [HideInInspector] public float _verticalMovement;
+        [HideInInspector] public float _horizontalMovement;
+        [HideInInspector] public float _moveAmount;
+
+        [Header("DODGE SETTINGS")]
+        private Vector3 RollDirection;
 
         private Vector3 MoveDirection;
         private Vector3 TargetRotationDirection;
@@ -57,6 +60,8 @@ namespace RVT
         {
             GetMovementValues();
 
+            if (!_playerManager.CanMove) { return; }
+
             MoveDirection = PlayerCamera.Instance.transform.forward * _verticalMovement;
             MoveDirection = MoveDirection + PlayerCamera.Instance.transform.right * _horizontalMovement;
             MoveDirection.Normalize();
@@ -74,6 +79,8 @@ namespace RVT
 
         private void HandleRotation()
         {
+            if (!_playerManager.CanRotate) { return; }
+
             TargetRotationDirection = Vector3.zero;
             TargetRotationDirection = PlayerCamera.Instance.CameraObj.transform.forward * _verticalMovement;
             TargetRotationDirection = TargetRotationDirection + PlayerCamera.Instance.CameraObj.transform.right * _horizontalMovement;
@@ -93,6 +100,28 @@ namespace RVT
             _horizontalMovement = PlayerInputManager.Instance.HorizontalInput;
             _moveAmount = PlayerInputManager.Instance.MoveAmount;
             //CLAMP MOVEMENTS
+        }
+
+        public void AttemptToPerformDodge()
+        {
+            if (_playerManager.PerformingAction) { return; }
+
+            if (_moveAmount > 0)
+            {
+                RollDirection = PlayerCamera.Instance.CameraObj.transform.forward * _verticalMovement;
+                RollDirection += PlayerCamera.Instance.CameraObj.transform.right * _horizontalMovement;
+                RollDirection.y = 0;
+                RollDirection.Normalize();
+
+                Quaternion playerRot = Quaternion.LookRotation(RollDirection);
+                _playerManager.transform.rotation = playerRot;
+
+                _playerManager._playerAnimator.PlayActionAnimation("Roll_Forward", true, true);
+            }
+            else
+            {
+                _playerManager._playerAnimator.PlayActionAnimation("Roll_Back", true, true);
+            }
         }
     }
 }
