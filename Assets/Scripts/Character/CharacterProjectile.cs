@@ -6,19 +6,23 @@ namespace RVT
 {
     public class CharacterProjectile : MonoBehaviour
     {
-        [SerializeField] public float VFXDespawnTime = 5f;
+        [SerializeField] public float VFXDespawnTime;
+        [SerializeField] private int MyID;
+        [SerializeField] private ProjectilesSO ProjectilesDB;
 
         private GameObject ImpactVFX;
-        private CharacterManager Character;
         private Transform Origin;
-        private Transform Target;
+        private CharacterManager Target;
 
         protected virtual void Awake()
         {
             Origin = GetComponentInParent<Transform>();
+
+            ImpactVFX = ProjectilesDB.ProjectilesData[MyID].VFXImpact;
+            VFXDespawnTime = ProjectilesDB.ProjectilesData[MyID].DespawnTime;
         }
 
-        public virtual void SetTarget(Transform _target)
+        public virtual void SetTarget(CharacterManager _target)
         {
             Target = _target;
         }
@@ -36,7 +40,7 @@ namespace RVT
             }
 
             GameObject vfx = Instantiate(ImpactVFX, collision.transform.position, transform.rotation, transform);
-            Destroy(vfx, VFXDespawnTime);
+            this.GetComponent<CapsuleCollider>().enabled = false;
         }
     }
 }
