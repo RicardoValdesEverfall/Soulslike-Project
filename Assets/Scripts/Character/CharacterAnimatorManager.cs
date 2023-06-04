@@ -9,18 +9,29 @@ namespace RVT
     {
         private CharacterManager Character;
 
-        private float horizontal;
-        private float vertical;
+        private int horizontalAmount;
+        private int verticalAmount;
 
         protected virtual void Awake()
         {
             Character = GetComponent<CharacterManager>();
+
+            horizontalAmount = Animator.StringToHash("Horizontal");
+            verticalAmount = Animator.StringToHash("Vertical");
         }
 
-        public void UpdateAnimatorMovementParameters(float horizontal, float vertical)
+        public void UpdateAnimatorMovementParameters(float horizontal, float vertical, bool sprint)
         {
-            Character.animator.SetFloat("Horizontal", horizontal, 0.1f, Time.deltaTime);
-            Character.animator.SetFloat("Vertical", vertical, 0.1f, Time.deltaTime);
+            float h = horizontal;
+            float v = vertical;
+
+            if (sprint)
+            {
+                v = 2;
+            }
+
+            Character.animator.SetFloat(horizontalAmount, h, 0.1f, Time.deltaTime);
+            Character.animator.SetFloat(verticalAmount, v, 0.1f, Time.deltaTime);
         }
 
         public virtual void PlayActionAnimation

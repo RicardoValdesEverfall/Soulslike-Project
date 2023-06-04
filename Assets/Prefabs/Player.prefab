@@ -670,9 +670,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5392010451593398660}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.4999993, w: 0.5000007}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
+  m_LocalRotation: {x: -0.49999994, y: 0.5, z: 0.49999937, w: 0.5000008}
+  m_LocalPosition: {x: 0.00000002980232, y: 4.0856207e-14, z: 0.0000004172325}
+  m_LocalScale: {x: 1, y: 1.0000004, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5392010451593500158}
@@ -1163,13 +1163,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5392010451593398722}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071063, w: 0.70710725}
-  m_LocalPosition: {x: -0, y: 0.0053105056, z: 0.95299894}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
+  m_LocalPosition: {x: 0, y: 0.0053105056, z: 0.95299894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5392010451593500068}
   m_Father: {fileID: 5392010451593500156}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5392010451593398724
 GameObject:
@@ -1579,8 +1579,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5392010451593500034}
   - {fileID: 5392010451593500130}
+  - {fileID: 5392010451593500034}
   m_Father: {fileID: 7747388933586235712}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1678,7 +1678,7 @@ Transform:
   m_Children:
   - {fileID: 5392010451593500092}
   m_Father: {fileID: 5392010451593500156}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5392010451593398756
 GameObject:
@@ -2208,6 +2208,8 @@ MonoBehaviour:
     m_InternalValue: 0
   animatorMoveParameter:
     m_InternalValue: 0
+  isSprinting:
+    m_InternalValue: 0
 --- !u!95 &5595232185233274207
 Animator:
   serializedVersion: 5
@@ -2224,7 +2226,9 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: '
+
+    Transform ''pelvis'' has been deleted'
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2363,6 +2367,7 @@ MonoBehaviour:
   CanMove: 1
   _playerLocomotionManager: {fileID: 0}
   _playerAnimator: {fileID: 0}
+  _playerNetworkManager: {fileID: 0}
 --- !u!114 &1456689743615687955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2377,6 +2382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkingSpeed: 2
   RunningSpeed: 5
+  SprintSpeed: 8
   RotationSpeed: 15
   _verticalMovement: 0
   _horizontalMovement: 0

@@ -23,6 +23,7 @@ namespace RVT
 
         [Header("ACTION INPUT")]
         [SerializeField] private bool DodgeInput;
+        [SerializeField] private bool SprintInput;
 
         private PlayerControls PlayerControlsComponent;
 
@@ -45,6 +46,7 @@ namespace RVT
             HandleCameraMovementInput();
             HandleMovementInput();
             HandleDodgeInput();
+            HandleSprintInput();
         }
         #endregion
 
@@ -62,7 +64,10 @@ namespace RVT
                 PlayerControlsComponent = new PlayerControls();
                 PlayerControlsComponent.PlayerLocomotion.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
                 PlayerControlsComponent.PlayerCamera.Movement.performed += i => CameraInput = i.ReadValue<Vector2>();
+
                 PlayerControlsComponent.PlayerActions.Dodge.performed += i => DodgeInput = true;
+                PlayerControlsComponent.PlayerActions.Sprint.performed += i => SprintInput = true;
+                PlayerControlsComponent.PlayerActions.Sprint.canceled += i => SprintInput = false;
             }
 
             PlayerControlsComponent.Enable();
@@ -96,7 +101,7 @@ namespace RVT
 
             if (Player == null) { return; }
 
-            Player._playerAnimator.UpdateAnimatorMovementParameters(0, MoveAmount);
+            Player._playerAnimator.UpdateAnimatorMovementParameters(0, MoveAmount, Player._playerNetworkManager.isSprinting.Value);
             PlayerCamera.Instance.HandleCameraPivot(MoveAmount);
         }
 
@@ -108,6 +113,12 @@ namespace RVT
 
                 Player._playerLocomotionManager.AttemptToPerformDodge();
             }
+        }
+
+        private void HandleSprintInput()
+        {
+            if (SprintInput) { Player._playerLocomotionManager.HandleSprint(); }
+            else {  Player._playerNetworkManager.isSprinting.Value = false; }
         }
 
         private void HandleCameraMovementInput()

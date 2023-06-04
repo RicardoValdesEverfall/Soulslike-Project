@@ -8,11 +8,13 @@ namespace RVT
     {
         [HideInInspector] public PlayerLocomotion _playerLocomotionManager;
         [HideInInspector] public PlayerAnimator _playerAnimator;
+        [HideInInspector] public PlayerNetworkManager _playerNetworkManager;
 
         protected override void Awake()
         {
             base.Awake();
 
+            _playerNetworkManager = GetComponent<PlayerNetworkManager>();
             _playerLocomotionManager = GetComponent<PlayerLocomotion>();
             _playerAnimator = GetComponent<PlayerAnimator>();
         }

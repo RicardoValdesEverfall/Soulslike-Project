@@ -10,6 +10,7 @@ namespace RVT
 
         [SerializeField] private float WalkingSpeed = 2;
         [SerializeField] private float RunningSpeed = 5;
+        [SerializeField] private float SprintSpeed = 8;
         [SerializeField] private float RotationSpeed = 15;
 
         [HideInInspector] public float _verticalMovement;
@@ -46,7 +47,7 @@ namespace RVT
                 _verticalMovement = _playerManager.CharacterNetworkManagerComponent.animatorVerticalParameter.Value;
                 _moveAmount = _playerManager.CharacterNetworkManagerComponent.animatorMoveParameter.Value;
 
-                _playerManager._playerAnimator.UpdateAnimatorMovementParameters(0, _moveAmount);
+                _playerManager._playerAnimator.UpdateAnimatorMovementParameters(0, _moveAmount, _playerManager._playerNetworkManager.isSprinting.Value);
             }
         }
 
@@ -67,14 +68,22 @@ namespace RVT
             MoveDirection.Normalize();
             MoveDirection.y = 0;
 
-            if (PlayerInputManager.Instance.MoveAmount > 0.5f)
+            if (_playerManager._playerNetworkManager.isSprinting.Value)
             {
-                _playerManager.CharacterControllerComponent.Move(MoveDirection * RunningSpeed * Time.deltaTime);
+                _playerManager.CharacterControllerComponent.Move(MoveDirection * SprintSpeed * Time.deltaTime);
             }
-            else if (PlayerInputManager.Instance.MoveAmount <= 0.5f)
+
+            else
             {
-                _playerManager.CharacterControllerComponent.Move(MoveDirection * WalkingSpeed * Time.deltaTime);
-            }
+                if (PlayerInputManager.Instance.MoveAmount > 0.5f)
+                {
+                    _playerManager.CharacterControllerComponent.Move(MoveDirection * RunningSpeed * Time.deltaTime);
+                }
+                else if (PlayerInputManager.Instance.MoveAmount <= 0.5f)
+                {
+                    _playerManager.CharacterControllerComponent.Move(MoveDirection * WalkingSpeed * Time.deltaTime);
+                }
+            } 
         }
 
         private void HandleRotation()
@@ -92,6 +101,14 @@ namespace RVT
             Quaternion newRot = Quaternion.LookRotation(TargetRotationDirection);
             Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRot, RotationSpeed * Time.deltaTime);
             transform.rotation = targetRotation;
+        }
+
+        public void HandleSprint()
+        {
+            if (_playerManager.PerformingAction) { _playerManager._playerNetworkManager.isSprinting.Value = false; }
+
+            if (_moveAmount >= 0.5) { _playerManager._playerNetworkManager.isSprinting.Value = true; }
+            else { _playerManager._playerNetworkManager.isSprinting.Value = false; }
         }
 
         private void GetMovementValues()
