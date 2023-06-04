@@ -97,6 +97,7 @@ namespace RVT
             if (Player == null) { return; }
 
             Player._playerAnimator.UpdateAnimatorMovementParameters(0, MoveAmount);
+            PlayerCamera.Instance.HandleCameraPivot(MoveAmount);
         }
 
         private void HandleDodgeInput()

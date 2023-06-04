@@ -53,6 +53,33 @@ namespace RVT
             }
         }
 
+        public void HandleCameraPivot(float moveSpeed)
+        {
+            if (moveSpeed <= 0.5)
+            {
+                HandleSmoothCamera(0.3f, 55f);
+            }
+
+            if (moveSpeed > 0.5 && moveSpeed < 2)
+            {
+                HandleSmoothCamera(-0.35f, 60f);
+            }
+
+            else if (moveSpeed >= 2)
+            {
+                HandleSmoothCamera(-0.5f, 70f);
+            }
+        }
+
+        private void HandleSmoothCamera(float zPos, float FOV)
+        {
+            Vector3 newPos = CameraPivotTransform.localPosition;
+            newPos.z = Mathf.Lerp(newPos.z, zPos, 0.8f * Time.deltaTime);
+
+            CameraPivotTransform.localPosition = newPos;
+            CameraObj.fieldOfView = Mathf.Lerp(CameraObj.fieldOfView, FOV, 1.8f * Time.deltaTime);
+        }
+
         private void HandleFollowTarget()
         {
             Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, Player.transform.position, ref CameraVelocity, CameraSmoothSpeed * Time.deltaTime);
