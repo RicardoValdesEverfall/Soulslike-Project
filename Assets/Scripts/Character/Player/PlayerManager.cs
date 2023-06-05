@@ -9,6 +9,7 @@ namespace RVT
         [HideInInspector] public PlayerLocomotion _playerLocomotionManager;
         [HideInInspector] public PlayerAnimator _playerAnimator;
         [HideInInspector] public PlayerNetworkManager _playerNetworkManager;
+        [HideInInspector] public PlayerStatManager _playerStatsManager;
 
         protected override void Awake()
         {
@@ -17,6 +18,7 @@ namespace RVT
             _playerNetworkManager = GetComponent<PlayerNetworkManager>();
             _playerLocomotionManager = GetComponent<PlayerLocomotion>();
             _playerAnimator = GetComponent<PlayerAnimator>();
+            _playerStatsManager = GetComponent<PlayerStatManager>();
         }
 
         protected override void Update()
@@ -43,6 +45,9 @@ namespace RVT
             {
                 PlayerCamera.Instance.Player = this;
                 PlayerInputManager.Instance.Player = this;
+
+
+                _playerNetworkManager.playerStamina.OnValueChanged += PlayerUIManager.Instance.PlayerHUDManager.SetNewStaminaValue;
             }
         }
     }

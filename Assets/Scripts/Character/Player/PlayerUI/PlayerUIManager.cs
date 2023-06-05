@@ -7,15 +7,19 @@ namespace RVT
 {
     public class PlayerUIManager : MonoBehaviour
     {
+        public static PlayerUIManager Instance;
+
         [Header("NETWORK JOIN")]
         [SerializeField] private bool StartGameAsClient;
 
-        public static PlayerUIManager Instance;
+        [HideInInspector] public PlayerHUDManager PlayerHUDManager;
 
-        private void Awake()
+       private void Awake()
         {
             if (Instance == null) { Instance = this; }
             else { Destroy(this); }
+
+            PlayerHUDManager = GetComponentInChildren<PlayerHUDManager>();
         }
 
         private void Start()
